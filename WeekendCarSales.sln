@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.0.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeekendCarSales.Core", "src\WeekendCarSales.Core\WeekendCarSales.Core.csproj", "{1194C0BA-BD4B-44B9-A5E4-1060C60EFA01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeekendCarSales.Application", "src\WeekendCarSales.Application\WeekendCarSales.Application.csproj", "{1B753655-56A1-49AF-8AFE-BE21F55A6DD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeekendCarSales.Infrastructure", "src\WeekendCarSales.Infrastructure\WeekendCarSales.Infrastructure.csproj", "{3B45C0D7-F8A4-41F4-BE70-503F7326377D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeekendCarSales.Presentation", "src\WeekendCarSales.Presentation\WeekendCarSales.Presentation.csproj", "{528773A3-64B8-4EC4-B12D-24D4789316E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeekendCarSales.Tests", "tests\WeekendCarSales.Tests\WeekendCarSales.Tests.csproj", "{88CB5E5B-8227-4C5E-9E80-21DD916D2B3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1194C0BA-BD4B-44B9-A5E4-1060C60EFA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1194C0BA-BD4B-44B9-A5E4-1060C60EFA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1194C0BA-BD4B-44B9-A5E4-1060C60EFA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1194C0BA-BD4B-44B9-A5E4-1060C60EFA01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B753655-56A1-49AF-8AFE-BE21F55A6DD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B753655-56A1-49AF-8AFE-BE21F55A6DD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B753655-56A1-49AF-8AFE-BE21F55A6DD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B753655-56A1-49AF-8AFE-BE21F55A6DD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B45C0D7-F8A4-41F4-BE70-503F7326377D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B45C0D7-F8A4-41F4-BE70-503F7326377D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B45C0D7-F8A4-41F4-BE70-503F7326377D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B45C0D7-F8A4-41F4-BE70-503F7326377D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{528773A3-64B8-4EC4-B12D-24D4789316E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{528773A3-64B8-4EC4-B12D-24D4789316E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{528773A3-64B8-4EC4-B12D-24D4789316E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{528773A3-64B8-4EC4-B12D-24D4789316E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88CB5E5B-8227-4C5E-9E80-21DD916D2B3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CB5E5B-8227-4C5E-9E80-21DD916D2B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88CB5E5B-8227-4C5E-9E80-21DD916D2B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88CB5E5B-8227-4C5E-9E80-21DD916D2B3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
