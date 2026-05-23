@@ -1,0 +1,14 @@
+using Microsoft.Extensions.DependencyInjection;
+using WeekendCarSales.Application.Sales.Queries;
+
+namespace WeekendCarSales.Application;
+
+public static class DiConfig
+{
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        services.AddScoped<GetAllCarSalesQuery>();
+
+        return services;
+    }
+}
