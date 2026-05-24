@@ -1,0 +1,40 @@
+<Window
+  x:Class="WeekendCarSales.Presentation.Views.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  Title="Víkendové prodeje vozů"
+  Width="1120"
+  Height="760"
+  MinWidth="980"
+  MinHeight="620"
+  WindowStartupLocation="CenterScreen"
+>
+  <Grid Margin="32">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <StackPanel Grid.Row="0" Margin="0,0,0,24">
+      <TextBlock Text="Víkendové prodeje vozů" FontSize="32" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
+      <TextBlock
+        Text="Přehled prodejů uložených v lokální SQLite databázi."
+        Margin="0,4,0,0"
+        Foreground="{StaticResource MutedTextBrush}"
+        FontSize="16"
+      />
+    </StackPanel>
+
+    <GroupBox Grid.Row="1" Header="Načtené prodeje">
+      <DataGrid ItemsSource="{Binding Sales}">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Model" Binding="{Binding ModelName}" Width="*" />
+          <DataGridTextColumn Header="Datum prodeje" Binding="{Binding SoldOn, StringFormat={}{0:d.M.yyyy}}" Width="120" />
+          <DataGridTextColumn Header="Cena bez DPH" Binding="{Binding PriceWithoutVat, StringFormat={}{0:N2}}" Width="130" />
+          <DataGridTextColumn Header="DPH %" Binding="{Binding VatPercent, StringFormat={}{0:N2}}" Width="90" />
+          <DataGridTextColumn Header="Cena s DPH" Binding="{Binding PriceWithVat, StringFormat={}{0:N2}}" Width="130" />
+        </DataGrid.Columns>
+      </DataGrid>
+    </GroupBox>
+  </Grid>
+</Window>
