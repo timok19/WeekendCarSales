@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<carSales>
+  <sale>
+    <model>Škoda Oktávia</model>
+    <soldOn>2.12.2010</soldOn>
+    <priceWithoutVat>500000.00</priceWithoutVat>
+    <vatRate>20</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Felicia</model>
+    <soldOn>3.12.2000</soldOn>
+    <priceWithoutVat>210000.00</priceWithoutVat>
+    <vatRate>20</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Fabia</model>
+    <soldOn>4.12.2010</soldOn>
+    <priceWithoutVat>350000.00</priceWithoutVat>
+    <vatRate>20</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Oktávia</model>
+    <soldOn>4.12.2010</soldOn>
+    <priceWithoutVat>500000.00</priceWithoutVat>
+    <vatRate>20</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Oktávia</model>
+    <soldOn>5.12.2010</soldOn>
+    <priceWithoutVat>500000.00</priceWithoutVat>
+    <vatRate>20</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Fabia</model>
+    <soldOn>5.12.2010</soldOn>
+    <priceWithoutVat>350000.00</priceWithoutVat>
+    <vatRate>20</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Fabia</model>
+    <soldOn>6.12.2010</soldOn>
+    <priceWithoutVat>350000.00</priceWithoutVat>
+    <vatRate>20</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Forman</model>
+    <soldOn>4.12.2000</soldOn>
+    <priceWithoutVat>100000.00</priceWithoutVat>
+    <vatRate>19</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Favorit</model>
+    <soldOn>5.12.2000</soldOn>
+    <priceWithoutVat>80000.00</priceWithoutVat>
+    <vatRate>19</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Forman</model>
+    <soldOn>6.12.2000</soldOn>
+    <priceWithoutVat>100000.00</priceWithoutVat>
+    <vatRate>19</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Felicia</model>
+    <soldOn>3.12.2000</soldOn>
+    <priceWithoutVat>210000.00</priceWithoutVat>
+    <vatRate>19</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Felicia</model>
+    <soldOn>2.12.2000</soldOn>
+    <priceWithoutVat>210000.00</priceWithoutVat>
+    <vatRate>19</vatRate>
+  </sale>
+  <sale>
+    <model>Škoda Oktávia</model>
+    <soldOn>7.12.2010</soldOn>
+    <priceWithoutVat>500000.00</priceWithoutVat>
+    <vatRate>20</vatRate>
+  </sale>
+</carSales>

@@ -12,20 +12,99 @@
   <Grid Margin="32">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Row="0" Margin="0,0,0,24">
       <TextBlock Text="Víkendové prodeje vozů" FontSize="32" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
       <TextBlock
-        Text="Přehled prodejů uložených v lokální SQLite databázi."
+        Text="Načtení XML souboru a uložení prodejů do lokální SQLite databáze."
         Margin="0,4,0,0"
         Foreground="{StaticResource MutedTextBrush}"
         FontSize="16"
       />
     </StackPanel>
 
-    <GroupBox Grid.Row="1" Header="Načtené prodeje">
+    <Border
+      Grid.Row="1"
+      Background="{StaticResource CardBrush}"
+      CornerRadius="12"
+      Padding="20"
+      Margin="0,0,0,24"
+      BorderBrush="{StaticResource BorderBrush}"
+      BorderThickness="1"
+    >
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBox
+          Grid.Row="0"
+          Grid.Column="0"
+          Height="40"
+          IsReadOnly="True"
+          VerticalContentAlignment="Center"
+          Padding="12,0"
+          Text="{Binding SelectedFilePath, Mode=OneWay}"
+          BorderBrush="{StaticResource BorderBrush}"
+          BorderThickness="1"
+          Background="#F1F5F9"
+        >
+          <TextBox.Resources>
+            <Style TargetType="Border">
+              <Setter Property="CornerRadius" Value="6" />
+            </Style>
+          </TextBox.Resources>
+        </TextBox>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
+          <Button Content="Vybrat XML" Command="{Binding BrowseCommand}" />
+          <Button Content="Importovat" Command="{Binding ImportCommand}" />
+          <Button Content="Načíst vzorová data" Command="{Binding LoadSampleCommand}" Style="{StaticResource SecondaryButton}" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin="0,16,0,0" Padding="12" CornerRadius="6">
+          <Border.Style>
+            <Style TargetType="Border">
+              <Setter Property="Background" Value="#ECFDF5" />
+              <Setter Property="Visibility" Value="Visible" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding StatusMessage}" Value="{x:Null}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding StatusMessage}" Value="">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding HasError}" Value="True">
+                  <Setter Property="Background" Value="#FEF2F2" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Border.Style>
+          <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap" FontWeight="Medium">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding HasError}" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+        </Border>
+      </Grid>
+    </Border>
+
+    <GroupBox Grid.Row="2" Header="Načtené prodeje">
       <DataGrid ItemsSource="{Binding Sales}">
         <DataGrid.Columns>
           <DataGridTextColumn Header="Model" Binding="{Binding ModelName}" Width="*" />
