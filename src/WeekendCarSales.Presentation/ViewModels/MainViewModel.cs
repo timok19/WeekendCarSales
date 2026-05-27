@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using WeekendCarSales.Application.Sales.Commands;
 using WeekendCarSales.Application.Sales.Models;
 using WeekendCarSales.Application.Sales.Queries;
+using WeekendCarSales.Core.Extensions;
 
 namespace WeekendCarSales.Presentation.ViewModels;
 
@@ -15,31 +16,37 @@ public sealed class MainViewModel : ViewModelBase
     private readonly ImportSalesFromXmlCommand _importSalesFromXmlCommand;
     private readonly LoadSalesFromXmlQuery _loadSalesFromXmlQuery;
     private readonly GetAllCarSalesQuery _getAllCarSalesQuery;
+    private readonly GetWeekendSalesReportQuery _getWeekendSalesReportQuery;
 
     public MainViewModel(
         ImportSalesFromXmlCommand importSalesFromXmlCommand,
         LoadSalesFromXmlQuery loadSalesFromXmlQuery,
-        GetAllCarSalesQuery getAllCarSalesQuery
+        GetAllCarSalesQuery getAllCarSalesQuery,
+        GetWeekendSalesReportQuery getWeekendSalesReportQuery
     )
     {
         _importSalesFromXmlCommand = importSalesFromXmlCommand;
         _loadSalesFromXmlQuery = loadSalesFromXmlQuery;
         _getAllCarSalesQuery = getAllCarSalesQuery;
+        _getWeekendSalesReportQuery = getWeekendSalesReportQuery;
 
         BrowseCommand = new AsyncRelayCommand(BrowseAsync);
         ImportCommand = new AsyncRelayCommand(ImportAsync, () => !string.IsNullOrWhiteSpace(SelectedFilePath));
         LoadSampleCommand = new AsyncRelayCommand(LoadSampleAsync);
-
-        _ = RefreshAsync();
+        RefreshReportCommand = new AsyncRelayCommand(RefreshAsync);
     }
 
     public ObservableCollection<CarSaleDto> Sales { get; } = [];
+
+    public ObservableCollection<WeekendSalesTotalDto> WeekendTotals { get; } = [];
 
     public ICommand BrowseCommand { get; }
 
     public ICommand ImportCommand { get; }
 
     public ICommand LoadSampleCommand { get; }
+
+    public ICommand RefreshReportCommand { get; }
 
     public string SelectedFilePath
     {
@@ -64,6 +71,10 @@ public sealed class MainViewModel : ViewModelBase
         get;
         private set => SetProperty(ref field, value);
     }
+
+    public string TotalWithoutVat => WeekendTotals.Sum(dto => dto.TotalWithoutVat).ToCzechCurrency();
+
+    public string TotalWithVat => WeekendTotals.Sum(dto => dto.TotalWithVat).ToCzechCurrency();
 
     private async Task BrowseAsync()
     {
@@ -142,7 +153,18 @@ public sealed class MainViewModel : ViewModelBase
             return;
         }
 
+        var weekendTotals = await _getWeekendSalesReportQuery.Handle();
+        if (weekendTotals.IsFailed)
+        {
+            SetError(weekendTotals.ToErrorMessage());
+            return;
+        }
+
         ReplaceCollection(Sales, allSales.Value);
+        ReplaceCollection(WeekendTotals, weekendTotals.Value);
+
+        OnPropertyChanged(nameof(TotalWithoutVat));
+        OnPropertyChanged(nameof(TotalWithVat));
     }
 
     private void SetError(string message)
