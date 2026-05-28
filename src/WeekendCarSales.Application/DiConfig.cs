@@ -11,6 +11,7 @@ public static class DiConfig
         services.AddScoped<GetAllCarSalesQuery>();
         services.AddScoped<LoadSalesFromXmlQuery>();
         services.AddScoped<ImportSalesFromXmlCommand>();
+        services.AddScoped<GetWeekendSalesReportQuery>();
 
         return services;
     }

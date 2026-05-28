@@ -9,6 +9,7 @@
   MinHeight="620"
   WindowStartupLocation="CenterScreen"
 >
+  <Window.Resources></Window.Resources>
   <Grid Margin="32">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -19,7 +20,7 @@
     <StackPanel Grid.Row="0" Margin="0,0,0,24">
       <TextBlock Text="Víkendové prodeje vozů" FontSize="32" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
       <TextBlock
-        Text="Načtení XML souboru a uložení prodejů do lokální SQLite databáze."
+        Text="Načtení XML souboru, uložení do SQLite a výpočet součtů prodaných vozů za víkend."
         Margin="0,4,0,0"
         Foreground="{StaticResource MutedTextBrush}"
         FontSize="16"
@@ -68,6 +69,7 @@
           <Button Content="Vybrat XML" Command="{Binding BrowseCommand}" />
           <Button Content="Importovat" Command="{Binding ImportCommand}" />
           <Button Content="Načíst vzorová data" Command="{Binding LoadSampleCommand}" Style="{StaticResource SecondaryButton}" />
+          <Button Content="Přepočítat" Command="{Binding RefreshReportCommand}" Style="{StaticResource SecondaryButton}" />
         </StackPanel>
 
         <Border Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin="0,16,0,0" Padding="12" CornerRadius="6">
@@ -104,16 +106,79 @@
       </Grid>
     </Border>
 
-    <GroupBox Grid.Row="2" Header="Načtené prodeje">
-      <DataGrid ItemsSource="{Binding Sales}">
-        <DataGrid.Columns>
-          <DataGridTextColumn Header="Model" Binding="{Binding ModelName}" Width="*" />
-          <DataGridTextColumn Header="Datum prodeje" Binding="{Binding SoldOn, StringFormat={}{0:d.M.yyyy}}" Width="120" />
-          <DataGridTextColumn Header="Cena bez DPH" Binding="{Binding PriceWithoutVat, StringFormat={}{0:N2}}" Width="130" />
-          <DataGridTextColumn Header="DPH %" Binding="{Binding VatPercent, StringFormat={}{0:N2}}" Width="90" />
-          <DataGridTextColumn Header="Cena s DPH" Binding="{Binding PriceWithVat, StringFormat={}{0:N2}}" Width="130" />
-        </DataGrid.Columns>
-      </DataGrid>
-    </GroupBox>
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1.4*" />
+        <ColumnDefinition Width="32" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+
+      <GroupBox Grid.Column="0" Header="Načtené prodeje">
+        <DataGrid ItemsSource="{Binding Sales}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Model" Binding="{Binding ModelName}" Width="*" />
+            <DataGridTextColumn Header="Datum prodeje" Binding="{Binding SoldOn, StringFormat={}{0:d.M.yyyy}}" Width="120" />
+            <DataGridTextColumn Header="Cena bez DPH" Binding="{Binding PriceWithoutVat, StringFormat={}{0:N2}}" Width="130" />
+            <DataGridTextColumn Header="DPH %" Binding="{Binding VatPercent, StringFormat={}{0:N2}}" Width="90" />
+            <DataGridTextColumn Header="Cena s DPH" Binding="{Binding PriceWithVat, StringFormat={}{0:N2}}" Width="130" />
+          </DataGrid.Columns>
+        </DataGrid>
+      </GroupBox>
+
+      <GroupBox Grid.Column="2" Header="Víkendové souhrny">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <DataGrid Grid.Row="0" ItemsSource="{Binding WeekendTotals}">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Název modelu" Binding="{Binding ModelName}" Width="*" />
+              <DataGridTextColumn Header="Cena bez DPH" Binding="{Binding TotalWithoutVat, StringFormat={}{0:N2}}" Width="120" />
+              <DataGridTextColumn Header="Cena s DPH" Binding="{Binding TotalWithVat, StringFormat={}{0:N2}}" Width="120" />
+              <DataGridTextColumn Header="Počet" Binding="{Binding WeekendSalesCount}" Width="60" />
+            </DataGrid.Columns>
+          </DataGrid>
+
+          <Border
+            Grid.Row="1"
+            Background="#F1F5F9"
+            CornerRadius="8"
+            Padding="16"
+            Margin="0,16,0,0"
+            BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="1"
+          >
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <StackPanel Grid.Column="0">
+                <TextBlock
+                  Text="CELKEM BEZ DPH"
+                  FontSize="11"
+                  FontWeight="Bold"
+                  Foreground="{StaticResource MutedTextBrush}"
+                  Margin="0,0,0,4"
+                />
+                <TextBlock Text="{Binding TotalWithoutVat}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextBrush}" />
+              </StackPanel>
+              <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                <TextBlock
+                  Text="CELKEM S DPH"
+                  FontSize="11"
+                  FontWeight="Bold"
+                  Foreground="{StaticResource MutedTextBrush}"
+                  Margin="0,0,0,4"
+                />
+                <TextBlock Text="{Binding TotalWithVat}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" />
+              </StackPanel>
+            </Grid>
+          </Border>
+        </Grid>
+      </GroupBox>
+    </Grid>
   </Grid>
 </Window>

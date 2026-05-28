@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WeekendCarSales.Application.Abstractions;
 using WeekendCarSales.Core.Domain;
+using WeekendCarSales.Core.Extensions;
 using WeekendCarSales.Infrastructure.Database;
 
 namespace WeekendCarSales.Infrastructure.Repositories;
@@ -21,5 +22,12 @@ public sealed class CarSaleRepository(WeekendCarSalesDbContext dbContext) : ICar
             .OrderBy(sale => sale.SoldOn)
             .ThenBy(sale => sale.ModelName)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<CarSale>> GetWeekendSales(CancellationToken cancellationToken = default)
+    {
+        var allSales = await dbContext.CarSales.AsNoTracking().ToListAsync(cancellationToken);
+
+        return allSales.Where(sale => sale.SoldOn.IsWeekend()).ToList();
     }
 }
