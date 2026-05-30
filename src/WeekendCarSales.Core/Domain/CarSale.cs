@@ -1,6 +1,6 @@
 namespace WeekendCarSales.Core.Domain;
 
-public sealed class CarSale
+public sealed record CarSale
 {
     public CarSale(string modelName, DateTime soldOn, Money priceWithoutVat, VatRate vatRate)
     {
@@ -12,15 +12,26 @@ public sealed class CarSale
         VatRate = vatRate;
     }
 
-    public int Id { get; private set; }
+    public CarSale(int id, string modelName, DateTime soldOn, Money priceWithoutVat, VatRate vatRate)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(modelName);
 
-    public string ModelName { get; private set; }
+        Id = id;
+        ModelName = modelName.Trim();
+        SoldOn = soldOn.Date;
+        PriceWithoutVat = priceWithoutVat;
+        VatRate = vatRate;
+    }
 
-    public DateTime SoldOn { get; private set; }
+    public int Id { get; init; }
 
-    public Money PriceWithoutVat { get; private set; }
+    public string ModelName { get; init; }
 
-    public VatRate VatRate { get; private set; }
+    public DateTime SoldOn { get; init; }
+
+    public Money PriceWithoutVat { get; init; }
+
+    public VatRate VatRate { get; init; }
 
     public Money PriceWithVat => new(PriceWithoutVat.Amount * VatRate.Multiplier);
 }

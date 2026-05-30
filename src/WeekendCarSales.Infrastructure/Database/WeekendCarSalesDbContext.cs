@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WeekendCarSales.Core.Domain;
+using WeekendCarSales.Infrastructure.Database.Models;
 
 namespace WeekendCarSales.Infrastructure.Database;
 
@@ -22,28 +22,29 @@ public sealed class WeekendCarSalesDbContext(DbContextOptions<WeekendCarSalesDbC
     {
         await Database.MigrateAsync(cancellationToken);
 
-        if (!await CarSales.AnyAsync(cancellationToken))
-        {
-            var seedData = new CarSale[]
-            {
-                new("Škoda Oktávia", new DateTime(2010, 12, 02), new Money(500000.00m), new VatRate(20.00m)),
-                new("Škoda Felicia", new DateTime(2000, 12, 03), new Money(210000.00m), new VatRate(20.00m)),
-                new("Škoda Fabia", new DateTime(2010, 12, 04), new Money(350000.00m), new VatRate(20.00m)),
-                new("Škoda Oktávia", new DateTime(2010, 12, 04), new Money(500000.00m), new VatRate(20.00m)),
-                new("Škoda Oktávia", new DateTime(2010, 12, 05), new Money(500000.00m), new VatRate(20.00m)),
-                new("Škoda Fabia", new DateTime(2010, 12, 05), new Money(350000.00m), new VatRate(20.00m)),
-                new("Škoda Fabia", new DateTime(2010, 12, 06), new Money(350000.00m), new VatRate(20.00m)),
-                new("Škoda Forman", new DateTime(2000, 12, 04), new Money(100000.00m), new VatRate(19.00m)),
-                new("Škoda Favorit", new DateTime(2000, 12, 05), new Money(80000.00m), new VatRate(19.00m)),
-                new("Škoda Forman", new DateTime(2000, 12, 06), new Money(100000.00m), new VatRate(19.00m)),
-                new("Škoda Felicia", new DateTime(2000, 12, 03), new Money(210000.00m), new VatRate(19.00m)),
-                new("Škoda Felicia", new DateTime(2000, 12, 02), new Money(210000.00m), new VatRate(19.00m)),
-                new("Škoda Oktávia", new DateTime(2010, 12, 07), new Money(500000.00m), new VatRate(20.00m)),
-            };
+        if (await CarSales.AnyAsync(cancellationToken))
+            return;
 
-            await CarSales.AddRangeAsync(seedData, cancellationToken);
-            await SaveChangesAsync(cancellationToken);
-        }
+        var seedData = new CarSale[]
+        {
+            new("Škoda Oktávia", new DateTime(2010, 12, 02), new Money(500000.00m), new VatRate(20.00m)),
+            new("Škoda Felicia", new DateTime(2000, 12, 03), new Money(210000.00m), new VatRate(20.00m)),
+            new("Škoda Fabia", new DateTime(2010, 12, 04), new Money(350000.00m), new VatRate(20.00m)),
+            new("Škoda Oktávia", new DateTime(2010, 12, 04), new Money(500000.00m), new VatRate(20.00m)),
+            new("Škoda Oktávia", new DateTime(2010, 12, 05), new Money(500000.00m), new VatRate(20.00m)),
+            new("Škoda Fabia", new DateTime(2010, 12, 05), new Money(350000.00m), new VatRate(20.00m)),
+            new("Škoda Fabia", new DateTime(2010, 12, 06), new Money(350000.00m), new VatRate(20.00m)),
+            new("Škoda Forman", new DateTime(2000, 12, 04), new Money(100000.00m), new VatRate(19.00m)),
+            new("Škoda Favorit", new DateTime(2000, 12, 05), new Money(80000.00m), new VatRate(19.00m)),
+            new("Škoda Forman", new DateTime(2000, 12, 06), new Money(100000.00m), new VatRate(19.00m)),
+            new("Škoda Felicia", new DateTime(2000, 12, 03), new Money(210000.00m), new VatRate(19.00m)),
+            new("Škoda Felicia", new DateTime(2000, 12, 02), new Money(210000.00m), new VatRate(19.00m)),
+            new("Škoda Oktávia", new DateTime(2010, 12, 07), new Money(500000.00m), new VatRate(20.00m)),
+        };
+
+        await CarSales.AddRangeAsync(seedData, cancellationToken);
+
+        await SaveChangesAsync(cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

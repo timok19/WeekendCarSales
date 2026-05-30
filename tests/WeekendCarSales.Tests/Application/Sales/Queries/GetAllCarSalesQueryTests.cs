@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using NSubstitute;
 using Shouldly;
 using WeekendCarSales.Application.Abstractions;
 using WeekendCarSales.Application.Sales.Queries;
@@ -10,11 +11,11 @@ namespace WeekendCarSales.Tests.Application.Sales.Queries;
 public sealed class GetAllCarSalesQueryTests
 {
     private readonly ICarSaleRepository _repository = Substitute.For<ICarSaleRepository>();
-    private readonly GetAllCarSalesQuery _sut;
+    private readonly GetAllCarSalesQuery _query;
 
     public GetAllCarSalesQueryTests()
     {
-        _sut = new GetAllCarSalesQuery(_repository);
+        _query = new GetAllCarSalesQuery(_repository, NullLogger<GetAllCarSalesQuery>.Instance);
     }
 
     [Fact]
@@ -27,7 +28,7 @@ public sealed class GetAllCarSalesQueryTests
         };
         _repository.GetAll(Arg.Any<CancellationToken>()).Returns(sales);
 
-        var result = await _sut.Handle();
+        var result = await _query.Handle();
 
         result.IsSuccess.ShouldBeTrue();
         result.Value.Count.ShouldBe(2);

@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Shouldly;
 using WeekendCarSales.Application.Abstractions;
@@ -12,17 +13,17 @@ public sealed class ImportSalesFromXmlCommandTests
 {
     private readonly ISalesXmlImporter _xmlImporter = Substitute.For<ISalesXmlImporter>();
     private readonly ICarSaleRepository _repository = Substitute.For<ICarSaleRepository>();
-    private readonly ImportSalesFromXmlCommand _sut;
+    private readonly ImportSalesFromXmlCommand _command;
 
     public ImportSalesFromXmlCommandTests()
     {
-        _sut = new ImportSalesFromXmlCommand(_xmlImporter, _repository);
+        _command = new ImportSalesFromXmlCommand(_xmlImporter, _repository, NullLogger<ImportSalesFromXmlCommand>.Instance);
     }
 
     [Fact]
     public async Task Handle_ReturnsFail_WhenFilePathIsEmpty()
     {
-        var result = await _sut.Handle("");
+        var result = await _command.Handle("");
 
         result.IsFailed.ShouldBeTrue();
         result.Errors.First().Message.ShouldBe("Please select a valid XML file.");
@@ -33,7 +34,7 @@ public sealed class ImportSalesFromXmlCommandTests
     {
         _xmlImporter.LoadAsync(Arg.Any<string>()).Returns(Result.Fail<IReadOnlyList<CarSale>>("Error"));
 
-        var result = await _sut.Handle("test.xml");
+        var result = await _command.Handle("test.xml");
 
         result.IsFailed.ShouldBeTrue();
     }
@@ -44,7 +45,7 @@ public sealed class ImportSalesFromXmlCommandTests
         var sales = new List<CarSale> { new("Model A", DateTime.Now, new Money(100), new VatRate(20)) };
         _xmlImporter.LoadAsync(Arg.Any<string>()).Returns(Result.Ok<IReadOnlyList<CarSale>>(sales));
 
-        var result = await _sut.Handle("test.xml");
+        var result = await _command.Handle("test.xml");
 
         result.IsSuccess.ShouldBeTrue();
         result.Value.ImportedCount.ShouldBe(1);
