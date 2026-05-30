@@ -1,7 +1,7 @@
 namespace WeekendCarSales.Application.Sales.Models;
 
 public sealed record CarSaleDto(
-    int Id,
+    int RowNumber,
     string ModelName,
     DateTime SoldOn,
     decimal PriceWithoutVat,
