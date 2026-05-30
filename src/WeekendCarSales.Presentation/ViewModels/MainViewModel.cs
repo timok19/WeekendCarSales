@@ -8,6 +8,7 @@ using WeekendCarSales.Application.Sales.Commands;
 using WeekendCarSales.Application.Sales.Models;
 using WeekendCarSales.Application.Sales.Queries;
 using WeekendCarSales.Core.Extensions;
+using WeekendCarSales.Presentation.Extensions;
 
 namespace WeekendCarSales.Presentation.ViewModels;
 
@@ -181,10 +182,4 @@ public sealed class MainViewModel : ViewModelBase
         foreach (var value in values)
             collection.Add(value);
     }
-}
-
-internal static class ResultExtensions
-{
-    public static string ToErrorMessage(this ResultBase result) =>
-        string.Join(Environment.NewLine, result.Errors.Select(error => error.Message));
 }

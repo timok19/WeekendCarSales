@@ -1,14 +1,18 @@
 using FluentResults;
+using Microsoft.Extensions.Logging;
 using WeekendCarSales.Application.Abstractions;
 using WeekendCarSales.Application.Sales.Models;
 
 namespace WeekendCarSales.Application.Sales.Queries;
 
-public sealed class GetAllCarSalesQuery(ICarSaleRepository carSaleRepository)
+public sealed class GetAllCarSalesQuery(ICarSaleRepository carSaleRepository, ILogger<GetAllCarSalesQuery> logger)
 {
     public async Task<Result<IReadOnlyList<CarSaleDto>>> Handle(CancellationToken cancellationToken = default)
     {
         var sales = await carSaleRepository.GetAll(cancellationToken);
+
+        if (logger.IsEnabled(LogLevel.Debug))
+            logger.LogDebug("Loaded {Count} car sales", sales.Count);
 
         var dto = sales
             .OrderBy(sale => sale.SoldOn)

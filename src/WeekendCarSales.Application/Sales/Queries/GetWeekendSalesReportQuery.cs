@@ -1,10 +1,11 @@
 using FluentResults;
+using Microsoft.Extensions.Logging;
 using WeekendCarSales.Application.Abstractions;
 using WeekendCarSales.Application.Sales.Models;
 
 namespace WeekendCarSales.Application.Sales.Queries;
 
-public sealed class GetWeekendSalesReportQuery(ICarSaleRepository repository)
+public sealed class GetWeekendSalesReportQuery(ICarSaleRepository repository, ILogger<GetWeekendSalesReportQuery> logger)
 {
     public async Task<Result<IReadOnlyList<WeekendSalesTotalDto>>> Handle(CancellationToken cancellationToken = default)
     {
@@ -20,6 +21,8 @@ public sealed class GetWeekendSalesReportQuery(ICarSaleRepository repository)
                 group.Count()
             ))
             .ToList();
+
+        logger.LogDebug("Weekend sales report built: {ModelCount} models from {SaleCount} sales.", dto.Count, weekendSales.Count);
 
         return Result.Ok<IReadOnlyList<WeekendSalesTotalDto>>(dto);
     }

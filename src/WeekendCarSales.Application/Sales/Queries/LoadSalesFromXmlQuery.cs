@@ -1,10 +1,11 @@
 using FluentResults;
+using Microsoft.Extensions.Logging;
 using WeekendCarSales.Application.Abstractions;
 using WeekendCarSales.Application.Sales.Models;
 
 namespace WeekendCarSales.Application.Sales.Queries;
 
-public sealed class LoadSalesFromXmlQuery(ISalesXmlImporter xmlImporter)
+public sealed class LoadSalesFromXmlQuery(ISalesXmlImporter xmlImporter, ILogger<LoadSalesFromXmlQuery> logger)
 {
     public async Task<Result<IReadOnlyList<CarSaleDto>>> Handle(string filePath, CancellationToken cancellationToken = default)
     {
@@ -12,6 +13,10 @@ public sealed class LoadSalesFromXmlQuery(ISalesXmlImporter xmlImporter)
 
         if (loaded.IsFailed)
         {
+            logger.LogWarning(
+                "Failed to load car sales from {FilePath}: {Errors}",
+                filePath,
+                string.Join("; ", loaded.Errors.Select(error => error.Message)));
             return Result.Fail(loaded.Errors);
         }
 
