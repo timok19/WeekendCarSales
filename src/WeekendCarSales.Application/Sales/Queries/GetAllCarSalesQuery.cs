@@ -17,8 +17,8 @@ public sealed class GetAllCarSalesQuery(ICarSaleRepository carSaleRepository, IL
         var dto = sales
             .OrderBy(sale => sale.SoldOn)
             .ThenBy(sale => sale.ModelName)
-            .Select(sale => new CarSaleDto(
-                sale.Id,
+            .Select((sale, index) => new CarSaleDto(
+                index + 1,
                 sale.ModelName,
                 sale.SoldOn,
                 sale.PriceWithoutVat.Amount,
