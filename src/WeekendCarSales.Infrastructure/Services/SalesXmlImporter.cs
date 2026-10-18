@@ -64,6 +64,7 @@ public sealed class SalesXmlImporter : ISalesXmlImporter
         else if (normalized.Count(character => character == '.') == 1 && normalized.Split('.')[1].Length == 3)
             normalized = normalized.Replace(".", string.Empty);
 
+
         return decimal.Parse(normalized, NumberStyles.Number, CultureInfo.InvariantCulture);
     }
 }
